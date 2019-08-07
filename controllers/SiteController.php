@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\User;
 
 class SiteController extends Controller
 {
@@ -61,6 +62,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+//        Yii::$app->language='az';
         return $this->render('index');
     }
 
@@ -83,6 +85,30 @@ class SiteController extends Controller
         $model->password = '';
         return $this->render('login', [
             'model' => $model,
+        ]);
+    }
+
+    /**
+     * Register action.
+     *
+     * @return Response|string
+     */
+    public function actionRegister()
+    {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goBack();
+        }
+
+        $newUser = new User();
+
+        $model->password = '';
+        return $this->render('register', [
+            'newUser' => $newUser,
         ]);
     }
 

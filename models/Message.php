@@ -14,8 +14,8 @@ use Yii;
  * @property string $text
  * @property string $created
  *
- * @property User $fromUser
- * @property User $toUser
+ * @property UserLog $fromUser
+ * @property UserLog $toUser
  * @property Trip $trip
  */
 class Message extends \yii\db\ActiveRecord
@@ -38,8 +38,8 @@ class Message extends \yii\db\ActiveRecord
             [['from_user_id', 'to_user_id', 'trip_id'], 'integer'],
             [['text'], 'string'],
             [['created'], 'safe'],
-            [['from_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['from_user_id' => 'id']],
-            [['to_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['to_user_id' => 'id']],
+            [['from_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserLog::className(), 'targetAttribute' => ['from_user_id' => 'id']],
+            [['to_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserLog::className(), 'targetAttribute' => ['to_user_id' => 'id']],
             [['trip_id'], 'exist', 'skipOnError' => true, 'targetClass' => Trip::className(), 'targetAttribute' => ['trip_id' => 'id']],
         ];
     }
@@ -51,8 +51,8 @@ class Message extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'from_user_id' => Yii::t('app', 'From User ID'),
-            'to_user_id' => Yii::t('app', 'To User ID'),
+            'from_user_id' => Yii::t('app', 'From UserLog ID'),
+            'to_user_id' => Yii::t('app', 'To UserLog ID'),
             'trip_id' => Yii::t('app', 'Trip ID'),
             'text' => Yii::t('app', 'Text'),
             'created' => Yii::t('app', 'Created'),
@@ -64,7 +64,7 @@ class Message extends \yii\db\ActiveRecord
      */
     public function getFromUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'from_user_id']);
+        return $this->hasOne(UserLog::className(), ['id' => 'from_user_id']);
     }
 
     /**
@@ -72,7 +72,7 @@ class Message extends \yii\db\ActiveRecord
      */
     public function getToUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'to_user_id']);
+        return $this->hasOne(UserLog::className(), ['id' => 'to_user_id']);
     }
 
     /**

@@ -20,7 +20,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\UserLog',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
@@ -43,6 +43,26 @@ $config = [
             ],
         ],
         'db' => $db,
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    //'basePath' => '@app/messages',
+//                    'sourceLanguage' => 'en',
+                    'fileMap' => [
+                        'app' => 'app.php'
+                    ],
+                ],
+            ],
+        ],
+        'urlManager' => [
+            'class' => 'codemix\localeurls\UrlManager',
+
+            // List all supported languages here
+            // Make sure, you include your app's default language.
+            'languages' => ['en', 'de', 'az'],
+        ]
+
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
