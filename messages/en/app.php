@@ -9,7 +9,20 @@ return[
     'Logout' => 'Logout',
     'Register' => 'Register',
     'register' => 'register',
+    'pls-login' => 'log in',
     'If you dont have an account you can {register} here.' => 'If you dont have an account you can {register} here.',
     'Please fill out the following fields to login:' => 'Please fill out the following fields to login:',
-    'Please fill out the following fields to register:' => 'Please fill out the following fields to register:'
+    'Please fill out the following fields to register:' => 'Please fill out the following fields to register:',
+    'You have registered successfully.' => 'You have registered successfully. Please, check your email.',
+    'Please, verify your account.' => 'Please, verify your account.',
+    'Please click on {link}' => 'Click {link} to verify your account.',
+    'activation_link' => 'here',
+    'Can not activate' => 'Activation failed.',
+    'Successfully activated' => 'Account successfully activated.',
+    'User not found.' => 'User not found.',
+    'Username' => 'Username',
+    'Email' => 'Email',
+    'Password' => 'Password',
+    'Remember me' => 'Remember me',
+    'Incorrect email or password.' => 'Incorrect email or password.'
 ];

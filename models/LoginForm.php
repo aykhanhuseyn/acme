@@ -8,12 +8,12 @@ use yii\base\Model;
 /**
  * LoginForm is the model behind the login form.
  *
- * @property UserLog|null $user This property is read-only.
+ * @property User|null $user This property is read-only.
  *
  */
 class LoginForm extends Model
 {
-    public $username;
+    public $email;
     public $password;
     public $rememberMe = true;
 
@@ -26,12 +26,26 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            // username and password are both required
-            [['username', 'password'], 'required'],
+            // email and password are both required
+            [['email', 'password'], 'required'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+        ];
+    }
+
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'email' => Yii::t('app', 'Email'),
+            'password' => Yii::t('app', 'Password'),
+            'rememberMe' => Yii::t('app', 'Remember me'),
         ];
     }
 
@@ -47,14 +61,14 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
-            if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+            if (empty($user) || !$user->validatePassword($this->password)) {
+                $this->addError($attribute, Yii::t('app','Incorrect email or password.'));
             }
         }
     }
 
     /**
-     * Logs in a user using the provided username and password.
+     * Logs in a user using the provided email and password.
      * @return bool whether the user is logged in successfully
      */
     public function login()
@@ -66,14 +80,14 @@ class LoginForm extends Model
     }
 
     /**
-     * Finds user by [[username]]
+     * Finds user by [[email]]
      *
-     * @return UserLog|null
+     * @return User|null
      */
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = UserLog::findByUsername($this->username);
+            $this->_user = User::findByEmail($this->email);
         }
 
         return $this->_user;

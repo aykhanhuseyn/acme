@@ -6,7 +6,7 @@ $this->title = Yii::t('app','Register');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="site-login">
+<div class="site-register">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p><?=Yii::t('app','Please fill out the following fields to register:')?></p>
@@ -20,8 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
+    <?= $registerForm->errorSummary($newUser) ?>
     <?= $registerForm->field($newUser, 'username')->textInput(['autofocus' => true]) ?>
-    <?= $registerForm->field($newUser, 'email')->passwordInput() ?>
+    <?= $registerForm->field($newUser, 'email')->textInput() ?>
     <?= $registerForm->field($newUser, 'password')->passwordInput() ?>
 
     <div class="form-group">
@@ -33,8 +34,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php ActiveForm::end(); ?>
 
     <div class="col-lg-offset-1" style="color:#999;">
-        <?= Yii::t('app','If you are already registered please, {login}',[
-            'login' => Html::a(Yii::t('app','login'),['/site/login'])
-        ])?>
+        <?= Yii::t('app','If you are already registered please, {login}',[ 'login' => Html::a(Yii::t('app','pls-login'),['/site/login']) ])?>.
     </div>
 </div>

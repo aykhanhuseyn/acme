@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Mailer;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -10,6 +11,8 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\User;
+use app\models\Mailer as MailSender;
+use yii\web\NotFoundHttpException;
 
 class SiteController extends Controller
 {
@@ -98,18 +101,28 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-
         $newUser = new User();
-
-        $model->password = '';
+        if ($newUser->load(Yii::$app->request->post()) && $newUser->save() && MailSender::send( MailSender::TYPE_REGISTRATION,$newUser)) {
+            Yii::$app->session->setFlash('success',Yii::t('app','You have registered successfully.'));
+            return $this->goHome();
+        }
         return $this->render('register', [
             'newUser' => $newUser,
         ]);
+    }
+
+    public function actionActivate($user, $token){
+        $userToActivate = User::find()->where(['id' => $user, 'uid' => $token])->one();
+
+        if(empty($userToActivate)){
+            throw new NotFoundHttpException(Yii::t('app','User not found.'));
+        }
+        if(!$userToActivate->activate()){
+            Yii::$app->session->setFlash('error', Yii::t('app', 'Can not activate'));
+        }else{
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Successfully activated'));
+        }
+        return $this->goHome();
     }
 
     /**
